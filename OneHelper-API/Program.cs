@@ -34,7 +34,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.Services.AddSwaggerGen( c =>
+builder.Services.AddSwaggerGen(c =>
 {
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -73,7 +73,7 @@ builder.Services.AddScoped<ISleepLogService, SleepLogService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddValidatorsFromAssemblyContaining<ToDoDtoValidator>();
 
-builder.Services.AddIdentityCore<User>( i =>
+builder.Services.AddIdentityCore<User>(i =>
 {
     i.User.RequireUniqueEmail = true;
     i.Password.RequireNonAlphanumeric = false;
@@ -109,13 +109,20 @@ builder.Services.AddAuthentication(options =>
 
 });
 
-builder.Services.AddAutoMapper(i => { 
-    i.AddProfile<ToDoProfile>(); 
+builder.Services.AddAutoMapper(i =>
+{
+    i.AddProfile<ToDoProfile>();
     i.AddProfile<SleepLogProfile>();
     i.AddProfile<UserProfile>();
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<OneHelperContext>();
+    db.Database.EnsureCreated(); // or db.Database.Migrate() if using EF migrations
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
