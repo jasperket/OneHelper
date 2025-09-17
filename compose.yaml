@@ -1,0 +1,53 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      MSSQL_SA_PASSWORD: "Estudillo123%"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+    secrets:
+      - db_password
+
+  backend-dev:
+    build:
+      context: ./OneHelper-API
+      target: development
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    develop:
+      watch:
+        - action: rebuild
+          path: ./backend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    restart: on-failure
+
+  frontend-dev:
+    build:
+      context: ./OneHelper-Frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    develop:
+      watch:
+        - action: sync
+          path: ./OneHelper-Frontend
+          target: /app
+    depends_on:
+      - backend-dev
+      - db
+    environment:
+      - VITE_API_URL=http://localhost:8080/api
+
+volumes:
+  sqlvolume:
+
+secrets:
+  db_password:
+    file: db/password.txt
