@@ -7,7 +7,7 @@ export const getSleepLogs = async (): Promise<SleepResponse[]> => {
 };
 
 export const getSleepLogById = async (id: number): Promise<SleepResponse> => {
-  const response = await apiClient.get<SleepResponse>("/SleepLog");
+  const response = await apiClient.get<SleepResponse>(`/SleepLog/${id}`);
   return response.data;
 };
 
