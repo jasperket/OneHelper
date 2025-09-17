@@ -88,7 +88,10 @@ export default function NewTask({
   };
 
   return (
-    <div className="rounded-2xl bg-gray-100 p-6 shadow-md">
+    <form
+      onSubmit={handleSubmit}
+      className="rounded-2xl bg-gray-100 p-6 shadow-md"
+    >
       <h2 className="mb-4 text-xl font-bold">New Task</h2>
 
       {/* Title */}
@@ -96,15 +99,31 @@ export default function NewTask({
         type="text"
         placeholder="Enter task title"
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="mb-3 w-full rounded-md border border-gray-300 bg-gray-50 p-2"
+        onChange={(e) => {
+          setTitle(e.target.value);
+          if (errors.title && e.target.value.trim())
+            setErrors((p) => ({ ...p, title: undefined }));
+        }}
+        className="mb-1 w-full rounded-md border border-gray-300 bg-gray-50 p-2"
         required
       />
+      {errors.title ? (
+        <span className="mb-3 block text-sm text-red-600">{errors.title}</span>
+      ) : (
+        <div className="mb-3" />
+      )}
 
       {/* Type */}
       <div className="mb-3">
         <label className="mb-1 block font-medium">Category *</label>
-        <Select value={type} onValueChange={setType}>
+        <Select
+          value={type}
+          onValueChange={(value) => {
+            setType(value);
+            if (errors.type && value.trim())
+              setErrors((p) => ({ ...p, type: undefined }));
+          }}
+        >
           <SelectTrigger className="w-full bg-white capitalize">
             <SelectValue placeholder="Select type" />
           </SelectTrigger>
@@ -116,6 +135,9 @@ export default function NewTask({
             ))}
           </SelectContent>
         </Select>
+        {errors.type ? (
+          <span className="mt-1 block text-sm text-red-600">{errors.type}</span>
+        ) : null}
 
         {/* Input + Add button */}
         <div className="mt-2 flex gap-2">
@@ -130,6 +152,7 @@ export default function NewTask({
             type="button"
             onClick={handleAddType}
             className="cursor-pointer bg-green-500 text-white hover:bg-green-600"
+            disabled={busy}
           >
             Add
           </Button>
@@ -153,18 +176,36 @@ export default function NewTask({
 
       {/* Start & End Time */}
       <div className="mb-3 grid grid-cols-2 gap-2">
-        <input
-          type="datetime-local"
-          value={start}
-          onChange={(e) => setStart(e.target.value)}
-          className="rounded-md border border-gray-300 bg-gray-50 p-2"
-        />
-        <input
-          type="datetime-local"
-          value={end}
-          onChange={(e) => setEnd(e.target.value)}
-          className="rounded-md border border-gray-300 bg-gray-50 p-2"
-        />
+        <div>
+          <input
+            type="datetime-local"
+            value={start}
+            onChange={(e) => {
+              setStart(e.target.value);
+              if (errors.start) setErrors((p) => ({ ...p, start: undefined }));
+            }}
+            className="mb-1 w-full rounded-md border border-gray-300 bg-gray-50 p-2"
+            required
+          />
+          {errors.start ? (
+            <span className="block text-sm text-red-600">{errors.start}</span>
+          ) : null}
+        </div>
+        <div>
+          <input
+            type="datetime-local"
+            value={end}
+            onChange={(e) => {
+              setEnd(e.target.value);
+              if (errors.end) setErrors((p) => ({ ...p, end: undefined }));
+            }}
+            className="mb-1 w-full rounded-md border border-gray-300 bg-gray-50 p-2"
+            required
+          />
+          {errors.end ? (
+            <span className="block text-sm text-red-600">{errors.end}</span>
+          ) : null}
+        </div>
       </div>
 
       {/* Description */}
@@ -178,19 +219,22 @@ export default function NewTask({
       {/* Buttons */}
       <div className="flex gap-4">
         <Button
-          onClick={handleSubmit}
-          className="flex-1 cursor-pointer bg-green-500 text-white hover:bg-green-600"
+          type="submit"
+          disabled={busy}
+          className="flex-1 cursor-pointer bg-green-500 text-white hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          Create Task
+          {busy ? "Creating..." : "Create Task"}
         </Button>
         <Button
+          type="button"
           variant="outline"
-          className="flex-1 cursor-pointer border-red-500 bg-transparent text-red-500 hover:bg-red-500 hover:text-gray-50"
+          className="flex-1 cursor-pointer border-red-500 bg-transparent text-red-500 hover:bg-red-500 hover:text-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
           onClick={clearFields}
+          disabled={busy}
         >
           Cancel
         </Button>
       </div>
-    </div>
+    </form>
   );
 }
