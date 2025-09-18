@@ -15,7 +15,7 @@ export default function SignUpPage() {
             className="h-full w-full object-cover"
           />
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center p-8">
           <form className="w-full max-w-lg space-y-4 p-1">
             <h2 className="text-3xl font-bold text-white">Create an account</h2>
             <p className="text-sm text-gray-300">Fields with * are required</p>
@@ -39,18 +39,18 @@ export default function SignUpPage() {
             </div>
 
             {/* Height, Weight, DOB */}
-            <div className="grid grid-cols-3 gap-4 text-white">
-              <Input type="number" name="height" placeholder="Height (cm)" />
-              <Input type="number" name="weight" placeholder="Weight (kg)" />
-              <Input type="date" name="dob" />
+            <div className="flex gap-4 text-white">
+              <Input type="text" name="height" placeholder="Height (cm)" />
+              <Input type="text" name="weight" placeholder="Weight (kg)" />
+              <Input type="date" name="dob" className="min-w-fit" />
             </div>
 
-            <button
+            <Button
               type="submit"
               className="w-full rounded bg-yellow-500 py-3 font-semibold text-black hover:bg-yellow-400"
             >
               Create account
-            </button>
+            </Button>
             <NavLink
               to="/"
               className="block pt-10 text-center text-[15px] text-gray-300 hover:underline"
