@@ -2,8 +2,37 @@ import UnAuthHeader from "@/components/layout/UnAuthHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { NavLink } from "react-router";
+import { useState } from "react";
+import type { User } from "@/models/user";
+import { Register } from "@/services/authClient";
 
 export default function SignUpPage() {
+  const[Username, SetUsername] = useState("");
+  const[Password, SetPassword] = useState("");
+  const[FirstName, SetFirstName] = useState("");
+  const[LastName, SetLastName] = useState("");
+  const[Email, SetEmail] = useState("");
+  const[PhoneNumber, SetPhoneNumber] = useState("");
+  const[Height, SetHeight] = useState("");
+  const[Weight, SetWeight] = useState("");
+  const[DOB, SetDOB] = useState("");
+
+  const HandleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const payload: User =  {
+      Username: Username.trim(),
+      Password: Password.trim(),
+      Gender : "Male",
+      DateOfBirth: DOB,
+      Email: Email,
+      PhoneNumber: PhoneNumber,
+      FirstName: FirstName,
+      LastName: LastName,
+      Height: parseFloat(Height),
+      Weight: parseFloat(Weight)
+    }
+    await Register(payload);
+  }
   return (
     <UnAuthHeader>
       <div className="grid h-screen grid-cols-1 md:grid-cols-[2fr_1fr]">
@@ -16,38 +45,38 @@ export default function SignUpPage() {
           />
         </div>
         <div className="flex items-center justify-center p-8">
-          <form className="w-full max-w-lg space-y-4 p-1">
+          <form className="w-full max-w-lg space-y-4 p-1" onSubmit={HandleSubmit}>
             <h2 className="text-3xl font-bold text-white">Create an account</h2>
             <p className="text-sm text-gray-300">Fields with * are required</p>
 
             {/* Username & Password */}
             <div className="grid grid-cols-2 gap-4 text-white">
-              <Input name="username" placeholder="*Username" />
-              <Input type="password" name="password" placeholder="*Password" />
+              <Input name="username" placeholder="*Username" onChange={(e) => {SetUsername(e.target.value)}} value={Username}/>
+              <Input type="password" name="password" placeholder="*Password" onChange={(e) => {SetPassword(e.target.value)}} value={Password}/>
             </div>
 
             {/* First & Last Name */}
             <div className="grid grid-cols-2 gap-4 text-white">
-              <Input name="firstName" placeholder="First Name" />
-              <Input name="lastName" placeholder="Last Name" />
+              <Input name="firstName" placeholder="First Name" onChange={(e) => {SetFirstName(e.target.value)}} value={FirstName}/>
+              <Input name="lastName" placeholder="Last Name" onChange={(e) => {SetLastName(e.target.value)}} value={LastName}/>
             </div>
 
             {/* Email & Phone */}
             <div className="grid grid-cols-2 gap-4 text-white">
-              <Input type="email" name="email" placeholder="Email" />
-              <Input type="tel" name="phone" placeholder="Phone Number" />
+              <Input type="email" name="email" placeholder="Email" onChange={(e) => {SetEmail(e.target.value)}} value={Email}/>
+              <Input type="tel" name="phone" placeholder="Phone Number" onChange={(e) => {SetPhoneNumber(e.target.value)}} value={PhoneNumber}/>
             </div>
 
             {/* Height, Weight, DOB */}
             <div className="flex gap-4 text-white">
-              <Input type="text" name="height" placeholder="Height (cm)" />
-              <Input type="text" name="weight" placeholder="Weight (kg)" />
-              <Input type="date" name="dob" className="min-w-fit" />
+              <Input type="text" name="height" placeholder="Height (cm)" onChange={(e) => {SetHeight(e.target.value)}} value={Height}/>
+              <Input type="text" name="weight" placeholder="Weight (kg)" onChange={(e) => {SetWeight(e.target.value)}} value={Weight}/>
+              <Input type="date" name="dob" className="min-w-fit" onChange={(e) => {SetDOB(e.target.value)}} value={DOB}/>
             </div>
 
             <Button
               type="submit"
-              className="w-full rounded bg-yellow-500 py-3 font-semibold text-black hover:bg-yellow-400"
+              className="w-full rounded bg-yellow-500 py-3 font-semibold text-black hover:bg-yellow-400" 
             >
               Create account
             </Button>

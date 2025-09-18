@@ -10,6 +10,7 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using OneHelper.Services.AuthService;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace OneHelper.Controllers
 {
@@ -28,6 +29,7 @@ namespace OneHelper.Controllers
         {
             try
             {
+                
                 var validation = await _validator.ValidateAsync(dto);
                 if (!validation.IsValid)
                 {
@@ -52,8 +54,13 @@ namespace OneHelper.Controllers
                 {
                     return BadRequest(validation.Errors);
                 }
-                var token = await _accountService.Login(dto);
-                return Ok(token);
+                var token = await _accountService.Login(dto) ?? throw new Exception("Token is invalid");
+                Response.Cookies.Append("jwtauth", token, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true
+                });
+                return Ok();
             }
             catch ( Exception ex)
             {
