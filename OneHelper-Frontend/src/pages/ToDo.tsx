@@ -26,6 +26,8 @@ export default function ToDoPage() {
     try {
       setLoading(true);
       const data = await getToDos();
+      console.log(`YAWAAAA`);
+      console.log(data);
       setTasks(data);
     } finally {
       setLoading(false);

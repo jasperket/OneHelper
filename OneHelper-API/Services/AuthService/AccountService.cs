@@ -18,6 +18,7 @@ namespace OneHelper.Services.AuthService
         {
             if (await _userManager.FindByNameAsync(dto.LoginInformation) is User username && username is not null)
             {
+                Console.WriteLine("User info here");
                 if (await _userManager.CheckPasswordAsync(username, dto.Password))
                 {
                     return GenerateToken(username);
@@ -26,12 +27,13 @@ namespace OneHelper.Services.AuthService
 
             if (await _userManager.FindByEmailAsync(dto.LoginInformation) is User email && email is not null)
             {
+                Console.WriteLine("User info here");
                 if (await _userManager.CheckPasswordAsync(email, dto.Password))
                 {
                     return GenerateToken(email);
                 }
             }
-            
+            Console.WriteLine("Norwen info here");
             throw new Exception("Login information is invalid");
         }
 
