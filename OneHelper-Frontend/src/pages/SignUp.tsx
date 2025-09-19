@@ -20,6 +20,11 @@ import {
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
+import {
+  validateRegister,
+  type RegisterFormErrors,
+} from "@/lib/validation/registerValidation";
+import { toast, Toaster } from "sonner";
 
 export default function SignUpPage() {
   const [Username, SetUsername] = useState("");
@@ -31,14 +36,55 @@ export default function SignUpPage() {
   const [Height, SetHeight] = useState("");
   const [Weight, SetWeight] = useState("");
   const [DOB, SetDOB] = useState<Date>();
+  const [Gender, SetGender] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const validate = () => {
+    const nextErrors = validateRegister({
+      Username,
+      Password,
+      FirstName,
+      LastName,
+      Gender,
+      DOB,
+      Height,
+      Weight,
+      Email,
+      PhoneNumber,
+    });
+    let i = 0;
+    for (const key in nextErrors) {
+      if (i >= 3) break;
+      const typedKey = key as keyof RegisterFormErrors;
+      console.log(key, typedKey);
+      toast.error(`Error in ${typedKey}`, {
+        description: nextErrors[typedKey],
+      });
+      i++;
+    }
+    return Object.keys(nextErrors).length === 0;
+  };
+
+  const clearFields = () => {
+    SetUsername("");
+    SetPassword("");
+    SetFirstName("");
+    SetLastName("");
+    SetEmail("");
+    SetPhoneNumber("");
+    SetHeight("");
+    SetWeight("");
+    SetDOB(undefined);
+    SetGender("");
+  };
 
   const HandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!DOB) return;
+    if (!validate() || !DOB) return; // TODO: show error message
     const payload: User = {
       Username: Username.trim(),
       Password: Password.trim(),
-      Gender: "Male",
+      Gender: Gender,
       DateOfBirth: DOB.toISOString().split("T")[0],
       Email: Email,
       PhoneNumber: PhoneNumber,
@@ -47,10 +93,24 @@ export default function SignUpPage() {
       Height: parseFloat(Height),
       Weight: parseFloat(Weight),
     };
-    await Register(payload);
+    try {
+      setBusy(true);
+      const loggedIn = await Register(payload);
+      if (loggedIn) {
+        toast.success("Account created successfully", {
+          description: "You can now log in",
+        });
+        clearFields();
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setBusy(false);
+    }
   };
   return (
     <UnAuthHeader>
+      <Toaster />
       <div className="grid h-screen grid-cols-1 md:grid-cols-[2fr_1fr]">
         {/* Left side (image) */}
         <div className="hidden items-center justify-center bg-gray-100 md:flex">
@@ -111,7 +171,7 @@ export default function SignUpPage() {
 
             {/* Gender  and Date of Birth */}
             <div className="grid grid-cols-2 gap-4 text-white">
-              <Select>
+              <Select value={Gender} onValueChange={SetGender}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Sex*" />
                 </SelectTrigger>
@@ -120,13 +180,13 @@ export default function SignUpPage() {
                   <SelectItem value="Female">Female</SelectItem>
                 </SelectContent>
               </Select>
-              {/* Date of Birt */}
+              {/* Date of Birth */}
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
                     data-empty={!DOB}
-                    className="data-[empty=true]:text-muted-foreground justify-start bg-transparent text-left font-normal hover:bg-transparent"
+                    className="data-[empty=true]:text-muted-foreground justify-start bg-transparent text-left font-normal hover:bg-transparent hover:text-white"
                   >
                     <CalendarIcon />
                     {DOB ? format(DOB, "PPP") : <span>Date of Birth*</span>}
@@ -186,8 +246,9 @@ export default function SignUpPage() {
               type="submit"
               className="w-full rounded bg-yellow-500 py-3 font-semibold text-black hover:bg-yellow-400"
             >
-              Create account
+              {busy ? "Creating..." : "Create account"}
             </Button>
+
             <NavLink
               to="/"
               className="mt-10 block text-center text-[15px] text-gray-300 hover:underline"

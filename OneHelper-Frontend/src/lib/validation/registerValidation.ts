@@ -3,8 +3,8 @@ export type RegisterFormValues = {
   Password: string;
   FirstName: string;
   LastName: string;
-  Gender: "Male" | "Female";
-  DOB?: Date; // nullable until user picks a date
+  Gender: string; // now plain string
+  DOB?: Date;
   Height: string;
   Weight: string;
   Email: string;
@@ -15,7 +15,9 @@ export type RegisterFormErrors = Partial<
   Record<keyof RegisterFormValues, string>
 >;
 
-export function validateSignUp(values: RegisterFormValues): RegisterFormErrors {
+export function validateRegister(
+  values: RegisterFormValues,
+): RegisterFormErrors {
   const errors: RegisterFormErrors = {};
 
   if (!values.Username.trim()) {
@@ -41,8 +43,13 @@ export function validateSignUp(values: RegisterFormValues): RegisterFormErrors {
     errors.LastName = "Last name is required";
   }
 
-  if (!values.Gender) {
+  if (!values.Gender.trim()) {
     errors.Gender = "Gender is required";
+  } else if (
+    values.Gender.toLowerCase() !== "male" &&
+    values.Gender.toLowerCase() !== "female"
+  ) {
+    errors.Gender = "Gender must be either Male or Female";
   }
 
   if (!values.DOB) {
@@ -75,5 +82,6 @@ export function validateSignUp(values: RegisterFormValues): RegisterFormErrors {
     errors.PhoneNumber = "Invalid phone number format";
   }
 
+  console.log(errors);
   return errors;
 }
