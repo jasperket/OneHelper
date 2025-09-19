@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import type { ToDo } from "@/models/Todo";
-import { validateToDo } from "@/lib/todoValidation";
+import { validateToDo } from "@/lib/validation/todoValidation";
 import { createToDo } from "@/services/toDoClient";
 
 interface NewTaskProps {
