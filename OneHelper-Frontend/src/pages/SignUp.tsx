@@ -54,10 +54,11 @@ export default function SignUpPage() {
     let i = 0;
     for (const key in nextErrors) {
       if (i >= 3) break;
+      toast.dismiss();
       const typedKey = key as keyof RegisterFormErrors;
-      console.log(key, typedKey);
       toast.error(`Error in ${typedKey}`, {
         description: nextErrors[typedKey],
+        position: "top-center",
       });
       i++;
     }
@@ -94,8 +95,8 @@ export default function SignUpPage() {
     };
     try {
       setBusy(true);
-      const loggedIn = await Register(payload);
-      if (loggedIn) {
+      const registered = await Register(payload);
+      if (registered) {
         toast.success("Account created successfully", {
           description: "You can now log in",
         });
