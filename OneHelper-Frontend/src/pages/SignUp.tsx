@@ -1,10 +1,18 @@
 import UnAuthHeader from "@/components/layout/UnAuthHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { NavLink } from "react-router";
 import { useState } from "react";
 import type { User } from "@/models/user";
 import { Register } from "@/services/authClient";
+
 
 export default function SignUpPage() {
   const[Username, SetUsername] = useState("");
@@ -69,9 +77,24 @@ export default function SignUpPage() {
 
             {/* Height, Weight, DOB */}
             <div className="flex gap-4 text-white">
-              <Input type="text" name="height" placeholder="Height (cm)" onChange={(e) => {SetHeight(e.target.value)}} value={Height}/>
-              <Input type="text" name="weight" placeholder="Weight (kg)" onChange={(e) => {SetWeight(e.target.value)}} value={Weight}/>
-              <Input type="date" name="dob" className="min-w-fit" onChange={(e) => {SetDOB(e.target.value)}} value={DOB}/>
+              <Input type="text" name="height" placeholder="Height (cm)" onChange={(e) => {SetHeight(e.target.value)}} value={Height} />
+              <Input type="text" name="weight" placeholder="Weight (kg)" onChange={(e) => {SetWeight(e.target.value)}} value={Weight} />
+            </div>
+
+            {/* Gender  and Date of Birth */}
+            <div className="grid grid-cols-2 gap-4 text-white">
+              <Select>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select Sex" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="male">Male</SelectItem>
+                  <SelectItem value="female">Female</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                  <SelectItem value="prefer not to say">Prefer not to say</SelectItem>
+                </SelectContent>
+              </Select>
+              <Input type="date" name="dob" className="w-full min-w-fit" onChange={(e) => {SetDOB(e.target.value)}} value={DOB} />
             </div>
 
             <Button
@@ -82,7 +105,7 @@ export default function SignUpPage() {
             </Button>
             <NavLink
               to="/"
-              className="block pt-10 text-center text-[15px] text-gray-300 hover:underline"
+              className="mt-10 block text-center text-[15px] text-gray-300 hover:underline"
             >
               Already have an account? Log in
             </NavLink>
