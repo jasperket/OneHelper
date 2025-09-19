@@ -8,8 +8,8 @@ type LayoutProps = {
 export default function AuthHeader({ children }: LayoutProps) {
   return (
     <>
-      <header className="bg-gray-50 text-gray-700 ">
-        <nav className="mx-auto flex items-center p-2 px-10 ">
+      <header className="bg-gray-50 text-gray-700">
+        <nav className="mx-auto flex h-16 items-center overflow-hidden px-10">
           <NavLink to="/dashboard">
             <h2 className="text-themeOrange paytoneOne transform text-[35px] font-extrabold transition-all duration-200 hover:scale-101">
               One<span className="text-themeGreen">Helper</span>
@@ -55,7 +55,7 @@ export default function AuthHeader({ children }: LayoutProps) {
             <NavLink
               to="/sleep"
               className={({ isActive }) =>
-                ` border-gray-300 px-10 py-5 transition-colors duration-200 ${
+                `border-gray-300 px-10 py-5 transition-colors duration-200 ${
                   isActive
                     ? "bg-orange-300 text-black"
                     : "text-black hover:bg-orange-300"

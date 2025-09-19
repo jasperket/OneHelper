@@ -17,8 +17,7 @@ export default function SleepTrackerPage() {
         >
           {isActive ? "Start Tracking" : "Stop Tracking"}
         </Button>
-        
-        <h1 className="rounded-full bg-green-600"/>
+        <h1 className="rounded-full bg-green-600" />
       </div>
       <div className="grid grid-cols-2 gap-24 py-10 text-gray-700">
         <DailySleepChart />
