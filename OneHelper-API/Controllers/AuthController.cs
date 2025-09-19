@@ -11,17 +11,20 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using OneHelper.Services.AuthService;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using OneHelper.Authorization.Interface;
+using OneHelper.Authorization.GoogleService;
 
 namespace OneHelper.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController( ILogger<AuthController> logger, IValidator<RegisterDto> validator, 
-        IAccountService service, IValidator<LoginDto> validatorLogin) : ControllerBase
+        IAuthService<LoginDto, RegisterDto> service, IValidator<LoginDto> validatorLogin, IGoogleAuthService googleAuth) : ControllerBase
     {
         private readonly ILogger<AuthController> _logger = logger;
         private readonly IValidator<RegisterDto> _validator = validator;
-        private readonly IAccountService _accountService = service;
+        private readonly IAuthService<LoginDto, RegisterDto> _accountService = service;
+        private readonly IGoogleAuthService _googleAuth = googleAuth;
         private readonly IValidator<LoginDto> _validatorLogin = validatorLogin;
 
         [HttpPost("Register")]

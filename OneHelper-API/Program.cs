@@ -1,19 +1,24 @@
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using OneHelper.Authorization.AccountService;
+using OneHelper.Authorization.GoogleService;
+using OneHelper.Authorization.Interface;
+using OneHelper.Dto;
 using OneHelper.Mapper;
 using OneHelper.Models;
 using OneHelper.Repository.Interfaces;
 using OneHelper.Repository.UserRepository;
+using OneHelper.Services.AuthService;
 using OneHelper.Services.SleepLogService;
 using OneHelper.Services.ToDoService;
+using OneHelper.Services.TokenService;
 using OneHelper.Validators;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using OneHelper.Services.AuthService;
-using Microsoft.OpenApi.Models;
 
 string ViteDevelopmentName = "Onehelper Frontend Development";
 string ViteDevelopmentOrigin = "http://localhost:5173";
@@ -70,7 +75,9 @@ builder.Services.AddScoped<ITodoRepository, ToDoRepository>();
 builder.Services.AddScoped<ISleepLogRepository, SleepLogRepository>();
 builder.Services.AddScoped<IToDoService, ToDoService>();
 builder.Services.AddScoped<ISleepLogService, SleepLogService>();
-builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAuthService<LoginDto, RegisterDto>, AccountService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IGoogleAuthService, GoogleAuthService>();
 builder.Services.AddValidatorsFromAssemblyContaining<ToDoDtoValidator>();
 
 builder.Services.AddIdentityCore<User>(i =>
