@@ -1,14 +1,16 @@
 import { useState, type ReactNode } from "react";
-import { NavLink, redirect } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import type { UserLogin } from "@/models/user";
 import { Login } from "@/services/authClient";
 import { Button } from "../ui/button";
+import { Toaster } from "sonner";
 
 type LayoutProps = {
   children: ReactNode;
 };
 
 export default function UnAuthHeader({ children }: LayoutProps) {
+  const navigate = useNavigate();
   const [Username, SetUsername] = useState("");
   const [Password, SetPassword] = useState("");
 
@@ -18,14 +20,12 @@ export default function UnAuthHeader({ children }: LayoutProps) {
       LoginInformation: Username.trim(),
       Password: Password.trim(),
     };
-    console.log(`${Username} ${Password}`);
-    console.log("otin");
     const status = await Login(payload);
-    console.log(`OTIN STATUS: ${status}`);
-    redirect("/todo");
+    navigate("/todo");
   };
   return (
     <>
+      <Toaster />
       <header className="z-10 flex h-16 w-full items-center justify-between border-b border-gray-300 bg-gray-50 px-8">
         <div className="paytoneOne text-[35px] font-bold">
           <span className="text-orange-500">One</span>

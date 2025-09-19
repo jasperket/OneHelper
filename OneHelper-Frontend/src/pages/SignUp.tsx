@@ -8,7 +8,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { NavLink } from "react-router";
 import { useState } from "react";
 import type { User } from "@/models/user";
 import { Register } from "@/services/authClient";
@@ -24,7 +23,7 @@ import {
   validateRegister,
   type RegisterFormErrors,
 } from "@/lib/validation/registerValidation";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 
 export default function SignUpPage() {
   const [Username, SetUsername] = useState("");
@@ -80,7 +79,7 @@ export default function SignUpPage() {
 
   const HandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate() || !DOB) return; // TODO: show error message
+    if (!validate() || !DOB) return;
     const payload: User = {
       Username: Username.trim(),
       Password: Password.trim(),
@@ -110,7 +109,6 @@ export default function SignUpPage() {
   };
   return (
     <UnAuthHeader>
-      <Toaster />
       <div className="grid h-screen grid-cols-1 md:grid-cols-[2fr_1fr]">
         {/* Left side (image) */}
         <div className="hidden items-center justify-center bg-gray-100 md:flex">
@@ -248,13 +246,6 @@ export default function SignUpPage() {
             >
               {busy ? "Creating..." : "Create account"}
             </Button>
-
-            <NavLink
-              to="/"
-              className="mt-10 block text-center text-[15px] text-gray-300 hover:underline"
-            >
-              Already have an account? Log in
-            </NavLink>
           </form>
         </div>
       </div>
