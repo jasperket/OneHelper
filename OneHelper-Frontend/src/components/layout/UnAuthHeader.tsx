@@ -32,7 +32,7 @@ export default function UnAuthHeader({ children }: LayoutProps) {
           <span className="text-green-600">Helper</span>
         </div>
         <div className="flex items-center gap-4">
-          <form onSubmit={HandleSubmit}>
+          <form onSubmit={HandleSubmit} className="flex items-center gap-4">
             <input
               type="text"
               placeholder="username"
@@ -51,7 +51,6 @@ export default function UnAuthHeader({ children }: LayoutProps) {
               Log in
             </Button>
           </form>
-
           <NavLink
             to="/signup"
             className="cursor-pointer rounded-full bg-green-600 px-6 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-green-700"
