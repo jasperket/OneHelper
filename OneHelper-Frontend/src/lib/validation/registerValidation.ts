@@ -24,12 +24,13 @@ export function validateRegister(
     errors.Username = "Username is required";
   }
 
-  if (!values.Password.trim()) {
+  const password = values.Password.trim();
+  if (!password) {
     errors.Password = "Password is required";
   } else {
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
-    if (!passwordRegex.test(values.Password)) {
+    if (!passwordRegex.test(password)) {
       errors.Password =
         "Password must be at least 8 characters, include uppercase, lowercase, number, and symbol";
     }
@@ -85,3 +86,4 @@ export function validateRegister(
   console.log(errors);
   return errors;
 }
+
