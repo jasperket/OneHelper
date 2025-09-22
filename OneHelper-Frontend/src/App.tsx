@@ -7,15 +7,24 @@ import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import Schedule from "./pages/Schedule";
 import { AuthProvider } from "./contexts/AuthContext";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/routing/ProtectedRoute";
+import GuestRoute from "./components/routing/GuestRoute";
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route
+            element={
+              <GuestRoute>
+                <Outlet />
+              </GuestRoute>
+            }
+          >
+            <Route path="/" element={<HomePage />} />
+            <Route path="/signup" element={<SignUp />} />
+          </Route>
           <Route
             element={
               <ProtectedRoute>
