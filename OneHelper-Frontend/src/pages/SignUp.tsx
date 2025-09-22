@@ -130,7 +130,7 @@ export default function SignUpPage() {
             <p className="text-sm text-gray-300">Fields with * are required</p>
 
             {/* Username & Password */}
-            <div className="relative grid grid-cols-2 gap-4 text-white">
+            <div className="grid grid-cols-2 gap-4 text-white">
               <Input
                 name="username"
                 placeholder="Username*"
@@ -139,7 +139,7 @@ export default function SignUpPage() {
                 }}
                 value={Username}
               />
-              <div className="text-white">
+              <div className="relative text-white">
                 <Input
                   type={showPassword ? "text" : "password"}
                   name="password"
