@@ -34,7 +34,6 @@ export default function SleepTrackerPage() {
             Stop Tracking
           </span>
         </button>
-
         <h1 className="rounded-full bg-green-600" />
       </div>
       <div className="grid grid-cols-2 gap-24 py-10 text-gray-700">

@@ -9,7 +9,7 @@ export default function AuthHeader({ children }: LayoutProps) {
   return (
     <>
       <header className="bg-gray-50 text-gray-700">
-        <nav className="mx-auto flex h-16 items-center px-10">
+        <nav className="mx-auto flex h-16 items-center overflow-hidden px-10">
           <NavLink to="/dashboard">
             <h2 className="text-themeOrange paytoneOne transform text-[35px] font-extrabold transition-all duration-200 hover:scale-101">
               One<span className="text-themeGreen">Helper</span>

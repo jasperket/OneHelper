@@ -16,7 +16,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Eye, EyeOff } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -28,6 +28,7 @@ import { toast } from "sonner";
 export default function SignUpPage() {
   const [Username, SetUsername] = useState("");
   const [Password, SetPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [FirstName, SetFirstName] = useState("");
   const [LastName, SetLastName] = useState("");
   const [Email, SetEmail] = useState("");
@@ -68,6 +69,7 @@ export default function SignUpPage() {
   const clearFields = () => {
     SetUsername("");
     SetPassword("");
+    setShowPassword(false);
     SetFirstName("");
     SetLastName("");
     SetEmail("");
@@ -137,15 +139,26 @@ export default function SignUpPage() {
                 }}
                 value={Username}
               />
-              <Input
-                type="password"
-                name="password"
-                placeholder="Password*"
-                onChange={(e) => {
-                  SetPassword(e.target.value);
-                }}
-                value={Password}
-              />
+              <div className="relative text-white">
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Password*"
+                  onChange={(e) => {
+                    SetPassword(e.target.value);
+                  }}
+                  value={Password}
+                  className="pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute inset-y-0 right-3 flex items-center text-white/80 hover:text-white"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
             </div>
 
             {/* First & Last Name */}
