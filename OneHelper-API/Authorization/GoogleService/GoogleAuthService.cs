@@ -3,7 +3,7 @@ using OneHelper.Models;
 using AutoMapper;
 using OneHelper.Services.TokenService;
 using OneHelper.Dto;
-using OneHelper.Authorization.AuthService;
+using OneHelper.Authorization;
 using System.Security.Claims;
 using Microsoft.Identity.Client;
 using Microsoft.AspNetCore.Authentication;
@@ -15,14 +15,12 @@ namespace OneHelper.Authorization.GoogleService
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
-        private readonly SignInManager<User> _signinManager;
         private readonly string _google = "Google";
-        public GoogleAuthService(UserManager<User> manager, IMapper mapper, ITokenService token, SignInManager<User> signinManager)
+        public GoogleAuthService(UserManager<User> manager, IMapper mapper, ITokenService token)
         {
             _userManager = manager;
             _mapper = mapper;
             _tokenService = token;
-            _signinManager = signinManager;
         }
 
         public async Task<string?> Login(AuthenticateResult data)
@@ -45,11 +43,6 @@ namespace OneHelper.Authorization.GoogleService
             }
             throw new Exception("Login unsuccessful");
         }
-
-        public AuthenticationProperties ConfigureExternalLogin(string? redirectUrl) =>  _signinManager
-                                            .ConfigureExternalAuthenticationProperties("Google", redirectUrl);
-
-        public async Task<ExternalLoginInfo?> GetExternalLoginInfo() => await _signinManager.GetExternalLoginInfoAsync();
 
         public bool Logout(string? token)
         {

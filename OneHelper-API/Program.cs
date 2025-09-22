@@ -13,7 +13,7 @@ using OneHelper.Mapper;
 using OneHelper.Models;
 using OneHelper.Repository.Interfaces;
 using OneHelper.Repository.UserRepository;
-using OneHelper.Services.AuthService;
+using OneHelper.Services;
 using OneHelper.Services.SleepLogService;
 using OneHelper.Services.ToDoService;
 using OneHelper.Services.TokenService;
