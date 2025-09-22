@@ -17,5 +17,17 @@ namespace OneHelper.Models
 
         public ICollection<SleepLog>? SleepLogs { get; set; }
         public ICollection<ToDo>? Todos { get; set; } 
+
+
+        public int GetAge()
+        {
+            Console.WriteLine($"{DateOfBirth}// {DateTime.Now} HELLO");
+            Console.WriteLine($"CURRENT AGE: {DateTime.Now.Year - DateOfBirth.Year}");
+            if (DateTime.Now.Year - DateOfBirth.Year is int age && DateOfBirth <= DateOnly.FromDateTime(DateTime.Today.AddYears(-age)))
+            {
+                return age;
+            }
+            return age - 1;
+        } 
     }
 }

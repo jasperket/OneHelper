@@ -19,7 +19,7 @@ public class SleepLogService : ISleepLogService
 
     public async Task<IEnumerable<SleepResponse>> GetAllSleepLogAsync(int userId)
     {
-        return _mapper.Map<IEnumerable<SleepResponse>>(await _sleepLogRepository.GetAllAsync(userId) ?? throw new Exception("Sleep log list is null"));
+        return _mapper.Map<IEnumerable<SleepResponse>>(await _sleepLogRepository.GetAllUserSleepLogs(userId) ?? throw new Exception("Sleep log list is null"));
     }
 
     public async Task<SleepResponse?> GetSleepLogByIdAsync(int id)
@@ -50,4 +50,7 @@ public class SleepLogService : ISleepLogService
     {
         await _sleepLogRepository.DeleteAsync(id);
     }
+
+    public async Task<IEnumerable<SleepResponse>> GetSleepPeriod(int numberOfDays) 
+        => _mapper.Map<IEnumerable<SleepResponse>>(await _sleepLogRepository.GetSleepPeriod(numberOfDays)); 
 }
