@@ -12,6 +12,6 @@ export const Login = async (LoginDetails: UserLogin): Promise<string> => {
 };
 
 export const Check = async (): Promise<UserCheck> => {
-  const response = await apiClient.post<UserCheck>("/Auth/Check");
+  const response = await apiClient.get<UserCheck>("/Auth/Check");
   return response.data;
 };

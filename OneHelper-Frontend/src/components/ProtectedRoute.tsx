@@ -9,5 +9,5 @@ export default function ProtectedRoute({
   const { isAuthenticated, loading } = useAuth();
 
   if (loading) return <div>Loading...</div>;
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
+  return isAuthenticated ? children : <Navigate to="/" replace />;
 }
