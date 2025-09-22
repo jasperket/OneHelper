@@ -25,7 +25,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: ViteDevelopmentName,
                       policy =>
                       {
-                          policy.WithOrigins(ViteDevelopmentOrigin).AllowAnyHeader().AllowAnyMethod();
+                          policy.WithOrigins(ViteDevelopmentOrigin).AllowAnyHeader().AllowAnyMethod().AllowCredentials();
                       });
 });
 
@@ -106,7 +106,17 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = issuer,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
     };
-
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            if ( context.Request.Cookies.ContainsKey("jwtauth"))
+            {
+                context.Token = context.Request.Cookies["jwtauth"];
+            }
+            return Task.CompletedTask;
+        }
+    };
 });
 
 builder.Services.AddAutoMapper(i =>

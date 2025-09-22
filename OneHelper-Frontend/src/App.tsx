@@ -7,6 +7,7 @@ import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import Schedule from "./pages/Schedule";
 
+
 function App() {
   return (
     <BrowserRouter>

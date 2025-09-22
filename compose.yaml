@@ -23,7 +23,7 @@ services:
     develop:
       watch:
         - action: rebuild
-          path: ./backend
+          path: ./OneHelper-API
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     restart: on-failure
@@ -39,6 +39,10 @@ services:
         - action: sync
           path: ./OneHelper-Frontend
           target: /app
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./OneHelper-Frontend/package.json
     depends_on:
       - backend-dev
       - db

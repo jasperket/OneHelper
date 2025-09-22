@@ -12,7 +12,7 @@ import {
 import { useState } from "react";
 import type { ToDoWithId } from "@/models/Todo";
 import { updateToDo } from "@/services/toDoClient";
-import { validateToDo } from "@/lib/todoValidation";
+import { validateToDo } from "@/lib/validation/todoValidation";
 
 interface EditTaskProps {
   task: ToDoWithId;
