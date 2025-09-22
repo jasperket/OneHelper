@@ -205,7 +205,12 @@ export default function SignUpPage() {
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
-                  <Calendar mode="single" selected={DOB} onSelect={SetDOB} />
+                  <Calendar
+                    mode="single"
+                    selected={DOB}
+                    onSelect={SetDOB}
+                    captionLayout="dropdown"
+                  />
                 </PopoverContent>
               </Popover>
             </div>
