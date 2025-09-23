@@ -3,6 +3,9 @@ using OneHelper.Models;
 using OneHelper.Services.ToDoService;
 using AutoMapper;
 using OneHelper.Dto;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OneHelper.Services.ToDoService;
 
@@ -25,7 +28,7 @@ public class ToDoService : IToDoService
     public async Task<ToDoResponse?> GetToDoByIdAsync(int id)
     {
         var entity = _mapper.Map<ToDoResponse>(await _toDoRepository.GetByIdAsync(id));
-        if ( entity is null )
+        if (entity is null)
         {
             throw new Exception("User not found....");
         }
@@ -38,11 +41,11 @@ public class ToDoService : IToDoService
         var moveDtoWithId = validatedDto with { UserId = userId };
         await _toDoRepository.AddAsync(_mapper.Map<ToDo>(moveDtoWithId));
     }
-    
+
     public async Task UpdateToDoAsync(int id, ToDoRequest item)
     {
         var entity = await _toDoRepository.GetByIdAsync(id);
-        if ( entity is not null )
+        if (entity is not null)
         {
             _mapper.Map(item, entity);
             await _toDoRepository.UpdateAsync(entity);
@@ -54,5 +57,13 @@ public class ToDoService : IToDoService
     public async Task DeleteToDoAsync(int id)
     {
         await _toDoRepository.DeleteAsync(id);
+    }
+
+    public async Task<IEnumerable<ToDoResponse>> GetUpcomingToDosAsync(int userId, DateTime? startDate = null)
+    {
+        var normalizedStart = (startDate ?? DateTime.UtcNow).Date;
+        var endDate = normalizedStart.AddDays(6);
+        var entities = await _toDoRepository.GetUpcomingAsync(userId, normalizedStart, endDate);
+        return _mapper.Map<IEnumerable<ToDoResponse>>(entities);
     }
 }

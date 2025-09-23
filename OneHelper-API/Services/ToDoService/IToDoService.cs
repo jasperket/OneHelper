@@ -1,5 +1,8 @@
-﻿using OneHelper.Dto;
+using OneHelper.Dto;
 using OneHelper.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OneHelper.Services.ToDoService
 {
@@ -13,5 +16,6 @@ namespace OneHelper.Services.ToDoService
         public Task AddToDoAsync(ToDoRequest item, int userId);
         public Task UpdateToDoAsync(int id,ToDoRequest item);
         public Task DeleteToDoAsync(int id);
+        public Task<IEnumerable<ToDoResponse>> GetUpcomingToDosAsync(int userId, DateTime? startDate = null);
     }
 }
