@@ -9,6 +9,7 @@ import {
   type LoginFormErrors,
 } from "@/lib/validation/loginValidation";
 import axios from "axios";
+import { useAuth } from "@/hooks/useAuth";
 
 type LayoutProps = {
   children: ReactNode;
@@ -16,6 +17,7 @@ type LayoutProps = {
 
 export default function UnAuthHeader({ children }: LayoutProps) {
   const navigate = useNavigate();
+  const { refreshAuth } = useAuth();
   const [Username, SetUsername] = useState("");
   const [Password, SetPassword] = useState("");
   const [Busy, SetBusy] = useState(false);
@@ -49,10 +51,10 @@ export default function UnAuthHeader({ children }: LayoutProps) {
     try {
       SetBusy(true);
       await Login(payload);
+      await refreshAuth();
       navigate("/todo");
     } catch (e: unknown) {
       if (axios.isAxiosError(e)) {
-        // `e` is now typed as AxiosError
         toast.error("Login Error", {
           description:
             e.response?.data.message || "Invalid username or password",

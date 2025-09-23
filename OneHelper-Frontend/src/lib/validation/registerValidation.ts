@@ -83,7 +83,5 @@ export function validateRegister(
     errors.PhoneNumber = "Invalid phone number format";
   }
 
-  console.log(errors);
   return errors;
 }
-

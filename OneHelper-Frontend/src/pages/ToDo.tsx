@@ -26,8 +26,6 @@ export default function ToDoPage() {
     try {
       setLoading(true);
       const data = await getToDos();
-      console.log(`YAWAAAA`);
-      console.log(data);
       setTasks(data);
     } finally {
       setLoading(false);
@@ -48,7 +46,7 @@ export default function ToDoPage() {
     <AuthHeader>
       <div className="grid grid-cols-2 gap-32 text-gray-700">
         <div>
-          <h1 className="paytoneOne text-5xl ">
+          <h1 className="paytoneOne text-5xl">
             <span className="text-orange-400">To-Do</span>{" "}
             <span className="text-green-400">List</span>
           </h1>

@@ -15,3 +15,8 @@ export interface UserLogin {
   LoginInformation: string;
   Password: string;
 }
+
+export interface UserCheck {
+  authenticated: boolean;
+  user?: string;
+}
