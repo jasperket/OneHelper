@@ -11,13 +11,13 @@ namespace OneHelper.Repository.UserRepository
         {
         }
 
-        public async Task<IEnumerable<IGrouping<int,SleepLog>>> GetSleepPeriod(int numberOfDays)
+        public async Task<IEnumerable<IGrouping<DateTime, SleepLog>>> GetSleepPeriod(int numberOfDays, int userId)
         {
-            var result = await _dbSet.AsQueryable()
-                                    .OrderByDescending(i => i.StartTime)
-                                    .GroupBy(i => i.StartTime.Day)
-                                    .ToListAsync();
-            return result.Take(numberOfDays);
+            var result = await _dbSet.Where(i => i.UserId == userId)
+                                .ToListAsync();
+            return result.GroupBy(i => i.StartTime.Date)
+                        .OrderByDescending(i => i.Key)
+                        .Take(numberOfDays);
         }
 
         public async Task<IEnumerable<SleepLog>> GetAllUserSleepLogs(int userId) => await _dbSet.Where(i => i.UserId == userId).ToListAsync();

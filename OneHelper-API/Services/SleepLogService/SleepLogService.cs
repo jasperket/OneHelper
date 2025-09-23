@@ -51,9 +51,9 @@ public class SleepLogService : ISleepLogService
         await _sleepLogRepository.DeleteAsync(id);
     }
 
-    public async Task<IEnumerable<GroupedSleepResponsesDto>> GetSleepPeriod(int numberOfDays)
+    public async Task<IEnumerable<GroupedSleepResponsesDto>> GetSleepPeriod(int numberOfDays, int userId)
     {
-        var periodOfSleep = await _sleepLogRepository.GetSleepPeriod(numberOfDays);
+        var periodOfSleep = (await _sleepLogRepository.GetSleepPeriod(numberOfDays, userId)).AsEnumerable();
         return _mapper.Map<IEnumerable<GroupedSleepResponsesDto>>(periodOfSleep);
     }
 }
