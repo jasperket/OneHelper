@@ -61,7 +61,7 @@ namespace OneHelper.Services.SleepAnalysisService
                 {
                     Console.WriteLine($"{sleepLog.EndTime} - {sleepLog.StartTime} || {sleepLog.EndTime - sleepLog.StartTime}");
                     TimeSpan? time = (sleepLog.EndTime - sleepLog.StartTime);
-                    totalMinutes += time?.TotalMinutes;
+                    totalMinutes += (time?.TotalMinutes) ?? 0;
                 }
                 sleepGroupTotal.Add(totalMinutes ?? 0);
             }
