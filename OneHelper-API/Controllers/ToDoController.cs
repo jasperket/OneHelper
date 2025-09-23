@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using OneHelper.Dto;
 using OneHelper.Services.ToDoService;
@@ -6,6 +6,7 @@ using OneHelper.Models;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using System;
 
 namespace OneHelper.Controllers
 {
@@ -83,6 +84,26 @@ namespace OneHelper.Controllers
             {
                 var claimId = await Task.Run(() => User.FindFirstValue(ClaimTypes.NameIdentifier));
                 return Ok(await _toDoService.GetAllToDosAsync(Convert.ToInt32(claimId ?? throw new Exception("claimId not found"))));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("upcoming")]
+        public async Task<IActionResult> GetUpcoming([FromQuery] DateTime? startDate = null)
+        {
+            try
+            {
+                var claimId = await Task.Run(() => User.FindFirstValue(ClaimTypes.NameIdentifier));
+                if (claimId is null)
+                {
+                    throw new Exception("claimId not found");
+                }
+
+                var todos = await _toDoService.GetUpcomingToDosAsync(Convert.ToInt32(claimId), startDate);
+                return Ok(todos);
             }
             catch (Exception ex)
             {

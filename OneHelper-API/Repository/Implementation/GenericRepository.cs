@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OneHelper.Models;
 using OneHelper.Repository.Interfaces;
 using System.Threading.Tasks;
@@ -9,6 +9,7 @@ namespace OneHelper.Repository.UserRepository
     {
         protected readonly OneHelperContext _applicationDbContext;
         protected readonly DbSet<TEntity> _dbSet;
+
         public GenericRepository(OneHelperContext context) { 
             _applicationDbContext = context;
             _dbSet = context.Set<TEntity>();
