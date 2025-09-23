@@ -1,3 +1,4 @@
+import { useAuth } from "@/hooks/useAuth";
 import type { ReactNode } from "react";
 import { NavLink } from "react-router";
 
@@ -6,6 +7,7 @@ type LayoutProps = {
 };
 
 export default function AuthHeader({ children }: LayoutProps) {
+  const { user } = useAuth();
   return (
     <>
       <header className="bg-gray-50 text-gray-700">
@@ -67,7 +69,7 @@ export default function AuthHeader({ children }: LayoutProps) {
           </ul>
           <div className="ml-auto flex items-center gap-4">
             <div className="rounded-full border border-black p-4"></div>
-            <p>Hello Norwen</p>
+            <p>{user ? user : "Guest"}</p>
           </div>
         </nav>
       </header>
