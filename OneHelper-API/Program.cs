@@ -14,6 +14,7 @@ using OneHelper.Models;
 using OneHelper.Repository.Interfaces;
 using OneHelper.Repository.UserRepository;
 using OneHelper.Services;
+using OneHelper.Services.SleepAnalysisService;
 using OneHelper.Services.SleepLogService;
 using OneHelper.Services.ToDoService;
 using OneHelper.Services.TokenService;
@@ -78,6 +79,7 @@ builder.Services.AddScoped<ISleepLogService, SleepLogService>();
 builder.Services.AddScoped<IAuthService<LoginDto, RegisterDto>, AccountService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IGoogleAuthService, GoogleAuthService>();
+builder.Services.AddScoped<ISleepAnalysisService, SleepAnalysisService>();
 builder.Services.AddValidatorsFromAssemblyContaining<ToDoDtoValidator>();
 
 builder.Services.AddIdentityCore<User>(i =>

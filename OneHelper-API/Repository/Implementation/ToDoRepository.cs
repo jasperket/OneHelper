@@ -15,6 +15,7 @@ namespace OneHelper.Repository.UserRepository
 
         }
 
+
         public async Task<IEnumerable<ToDo>> GetUpcomingAsync(int userId, DateTime startDate, DateTime endDate)
         {
             return await _dbSet
@@ -22,5 +23,8 @@ namespace OneHelper.Repository.UserRepository
                 .OrderBy(todo => todo.StartTime)
                 .ToListAsync();
         }
+        
+        public async Task<IEnumerable<ToDo>> GetAllUserToDos(int userId) => await _dbSet.Where(i => i.UserId == userId).ToListAsync();
+
     }
 }

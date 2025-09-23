@@ -8,5 +8,7 @@ namespace OneHelper.Repository.Interfaces
     public interface ITodoRepository : IGenericRepository<ToDo>
     {
         Task<IEnumerable<ToDo>> GetUpcomingAsync(int userId, DateTime startDate, DateTime endDate);
+        Task<IEnumerable<ToDo>> GetAllUserToDos(int userId);
+
     }
 }
