@@ -9,7 +9,7 @@
             >= 6 => "Children",
             >= 3 => "Children-5-Below",
             >= 1 => "Children-2-Below",
-            >= 0 => "Newbord",
+            >= 0 => "Newborn",
             _ => throw new Exception("Age is invalid")
         };
 
