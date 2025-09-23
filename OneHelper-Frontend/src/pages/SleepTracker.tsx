@@ -15,12 +15,12 @@ export default function SleepTrackerPage() {
         <button
           onClick={() => setIsActive(!isActive)}
           className={`paytoneOne relative h-[80px] w-145 overflow-hidden rounded-full py-5 text-[30px] text-white transition-colors duration-500 ease-in-out ${
-            isActive ? "bg-green-600" : "bg-amber-500"
+            isActive ? "bg-amber-500" : "bg-green-600"
           }`}
         >
           <span
             className={`absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out ${
-              isActive ? "translate-y-0" : "-translate-y-full"
+              isActive ? "translate-y-full" : "-translate-y-0"
             }`}
           >
             Start Tracking
@@ -28,7 +28,7 @@ export default function SleepTrackerPage() {
 
           <span
             className={`absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out ${
-              isActive ? "translate-y-full" : "translate-y-0"
+              isActive ? "translate-y-0" : "translate-y-full"
             }`}
           >
             Stop Tracking
