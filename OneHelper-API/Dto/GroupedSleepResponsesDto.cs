@@ -1,4 +1,4 @@
 ﻿namespace OneHelper.Dto
 {
-    public sealed record GroupedSleepResponsesDto(int Key, IEnumerable<SleepResponse> Items);
+    public sealed record GroupedSleepResponsesDto(DateTime Key, IEnumerable<SleepResponse> Items);
 }

@@ -28,7 +28,7 @@ namespace OneHelper.Services.SleepAnalysisService
             var optimalSleepDuration = OneHelperStatic.SleepAgeGroup[OneHelperStatic.GetTitle(userRecord.GetAge()) 
                                         ?? throw new Exception("Title is invalid")];
             Console.WriteLine($"Optimal sleep duration {optimalSleepDuration}");
-            var sleepRecord = await _sleepService.GetSleepPeriod(PERIOD_OF_SLEEP);
+            var sleepRecord = await _sleepService.GetSleepPeriod(PERIOD_OF_SLEEP, userId);
             Console.Write($"Count {sleepRecord.Count()}  ");
 
             // total sleep in minutes for a user

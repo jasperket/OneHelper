@@ -15,7 +15,7 @@ namespace OneHelper.Mapper
             CreateMap<SleepResponse, SleepLog>();
             CreateMap<SleepRequest, ValidatedSleepLog>();
             CreateMap<ValidatedSleepLog, SleepLog>();
-            CreateMap<IGrouping<int, SleepLog>, GroupedSleepResponsesDto>()
+            CreateMap<IGrouping<DateTime, SleepLog>, GroupedSleepResponsesDto>()
                 .ConstructUsing((src, context) => new GroupedSleepResponsesDto(src.Key, src.Select(log => context.Mapper.Map<SleepResponse>(log))));
         }
     }
