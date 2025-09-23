@@ -7,8 +7,8 @@ namespace OneHelper.Repository.UserRepository
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : Entity
     {
-        readonly OneHelperContext _applicationDbContext;
-        readonly DbSet<TEntity> _dbSet;
+        protected readonly OneHelperContext _applicationDbContext;
+        protected readonly DbSet<TEntity> _dbSet;
         public GenericRepository(OneHelperContext context) { 
             _applicationDbContext = context;
             _dbSet = context.Set<TEntity>();
@@ -40,9 +40,9 @@ namespace OneHelper.Repository.UserRepository
         }
 
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(int userId)
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return await _dbSet.Where(i => i.Id == userId ).ToListAsync();
+            return await _dbSet.ToListAsync();
         }
 
         public async Task<TEntity?> GetByIdAsync(int id)

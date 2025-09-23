@@ -1,4 +1,5 @@
-﻿using OneHelper.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using OneHelper.Models;
 using OneHelper.Repository.Interfaces;
 
 namespace OneHelper.Repository.UserRepository
@@ -9,5 +10,7 @@ namespace OneHelper.Repository.UserRepository
         {
 
         }
+
+        public async Task<IEnumerable<ToDo>> GetAllUserToDos(int userId) => await _dbSet.Where(i => i.UserId == userId).ToListAsync();
     }
 }

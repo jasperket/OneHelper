@@ -5,10 +5,11 @@ namespace OneHelper.Services.SleepLogService
 {
     public interface ISleepLogService
     {
-        public Task<IEnumerable<SleepResponse>> GetAllSleepLogAsync(int userId);
-        public Task<SleepResponse?> GetSleepLogByIdAsync(int id);
-        public Task AddSleepLogAsync(SleepRequest item, int userId);
-        public Task UpdateSleepLogAsync(int id, SleepRequest item);
-        public Task DeleteSleepLogAsync(int id);
+        Task<IEnumerable<SleepResponse>> GetAllSleepLogAsync(int userId);
+        Task<SleepResponse?> GetSleepLogByIdAsync(int id);
+        Task AddSleepLogAsync(SleepRequest item, int userId);
+        Task UpdateSleepLogAsync(int id, SleepRequest item);
+        Task DeleteSleepLogAsync(int id);
+        Task<IEnumerable<GroupedSleepResponsesDto>> GetSleepPeriod(int numberOfDays);
     }
 }
