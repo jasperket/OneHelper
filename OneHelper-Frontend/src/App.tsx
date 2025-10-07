@@ -9,6 +9,7 @@ import Schedule from "./pages/Schedule";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/routing/ProtectedRoute";
 import GuestRoute from "./components/routing/GuestRoute";
+import { Toaster } from "sonner";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      <Toaster richColors position="top-center" />
     </AuthProvider>
   );
 }

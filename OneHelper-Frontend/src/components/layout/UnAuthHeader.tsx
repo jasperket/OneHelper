@@ -3,7 +3,7 @@ import { Link, NavLink, useNavigate } from "react-router";
 import type { UserLogin } from "@/models/user";
 import { Login } from "@/services/authClient";
 import { Button } from "../ui/button";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import {
   validateLogin,
   type LoginFormErrors,
@@ -69,7 +69,6 @@ export default function UnAuthHeader({ children }: LayoutProps) {
   };
   return (
     <>
-      <Toaster />
       <header className="z-10 flex h-16 w-full items-center justify-between border-b border-gray-300 bg-gray-50 px-8">
         <Link to="/">
           <div className="paytoneOne text-[35px] font-bold">
