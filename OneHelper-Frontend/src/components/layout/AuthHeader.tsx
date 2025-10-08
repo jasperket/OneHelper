@@ -94,7 +94,7 @@ export default function AuthHeader({ children }: LayoutProps) {
             </NavLink>
           </ul>
           <Popover onOpenChange={handleOpen}>
-            <PopoverTrigger className="ml-auto">
+            <PopoverTrigger className="ml-auto" asChild>
               <button className="relative flex cursor-pointer items-center gap-2">
                 <span className="absolute inset-0 -m-4 rounded-md hover:bg-gray-100/40"></span>
                 <div className="rounded-full border border-black p-4"></div>
