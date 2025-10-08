@@ -78,5 +78,25 @@ namespace OneHelper.Controllers
         {
             return Ok(new { authenticated = true, user = User.Identity?.Name });
         }
+
+        [HttpPost("Logout")]
+        [Authorize]
+        public IActionResult Logout()
+        {
+            // read token from cookie
+            if (!Request.Cookies.TryGetValue("jwtauth", out var token) || string.IsNullOrWhiteSpace(token))
+                return BadRequest(new { message = "No valid JWT found" });
+
+            // delete cookie so JwtBearer cannot read it
+            Response.Cookies.Delete("jwtauth", new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict // optional, matches login cookie settings
+            });
+
+            return Ok(new { message = "Logged out successfully" });
+        }
+
     }
 }
