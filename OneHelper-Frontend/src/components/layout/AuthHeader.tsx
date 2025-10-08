@@ -19,7 +19,8 @@ export default function AuthHeader({ children }: LayoutProps) {
     setIsOpen(!isOpen);
   };
 
-  const handleLogout = async () => {
+  const handleLogout = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       await Logout();
       await refreshAuth();
