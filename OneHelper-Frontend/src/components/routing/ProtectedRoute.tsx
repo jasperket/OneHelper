@@ -1,5 +1,6 @@
 import { Navigate } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
+import LoadingPage from "@/pages/LoadingPage";
 
 export default function ProtectedRoute({
   children,
@@ -8,6 +9,6 @@ export default function ProtectedRoute({
 }) {
   const { isAuthenticated, loading } = useAuth();
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <LoadingPage />;
   return isAuthenticated ? children : <Navigate to="/" replace />;
 }
