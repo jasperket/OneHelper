@@ -92,7 +92,7 @@ export default function UnAuthHeader({ children }: LayoutProps) {
               onChange={(e) => SetPassword(e.target.value)}
               value={Password}
             />
-            <Button className="rounded-full bg-orange-500 px-6 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-orange-600">
+            <Button className="cursor-pointer rounded-full bg-orange-500 px-6 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-orange-600">
               {Busy ? "Logging in..." : "Log in"}
             </Button>
           </form>
