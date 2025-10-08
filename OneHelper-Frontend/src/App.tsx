@@ -16,7 +16,6 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    // ✅ Wrap your entire app in QueryClientProvider
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <BrowserRouter>

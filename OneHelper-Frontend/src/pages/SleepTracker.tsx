@@ -1,11 +1,11 @@
 import AuthHeader from "@/components/layout/AuthHeader";
 import { DailySleepChart } from "@/components/sleep/DailySleepChart";
 import { WeeklySleepAve } from "@/components/sleep/WeeklySleepAve";
-// import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 export default function SleepTrackerPage() {
   const [isActive, setIsActive] = useState(false);
+
   return (
     <AuthHeader>
       <h1 className="paytoneOne mb-7 text-5xl text-orange-400">

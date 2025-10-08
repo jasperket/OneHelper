@@ -29,3 +29,10 @@ export const updateSleepLog = async (
 export const deleteSleepLog = async (id: number): Promise<void> => {
   await apiClient.delete(`/SleepLog/${id}`);
 };
+
+export const getActiveSleepLog = async (): Promise<SleepResponse | null> => {
+  const response = await apiClient.get<SleepResponse | null>(
+    "/SleepLog/active",
+  );
+  return response.data;
+};
