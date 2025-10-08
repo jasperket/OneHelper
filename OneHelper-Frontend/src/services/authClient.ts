@@ -15,3 +15,8 @@ export const Check = async (): Promise<UserCheck> => {
   const response = await apiClient.get<UserCheck>("/Auth/Check");
   return response.data;
 };
+
+export const Logout = async (): Promise<string> => {
+  const response = await apiClient.post<string>("/Auth/Logout");
+  return response.data;
+};

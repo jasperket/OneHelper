@@ -1,13 +1,39 @@
 import { useAuth } from "@/hooks/useAuth";
-import type { ReactNode } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { useState, type ReactNode } from "react";
 import { NavLink } from "react-router";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Logout } from "@/services/authClient";
+import axios from "axios";
+import { toast } from "sonner";
 
 type LayoutProps = {
   children: ReactNode;
 };
 
 export default function AuthHeader({ children }: LayoutProps) {
-  const { user } = useAuth();
+  const { user, refreshAuth } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpen = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleLogout = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await Logout();
+      await refreshAuth();
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        toast.error("Logout Error", {
+          description: e.response?.data.message,
+        });
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    }
+  };
   return (
     <>
       <header className="bg-gray-50 text-gray-700">
@@ -67,10 +93,24 @@ export default function AuthHeader({ children }: LayoutProps) {
               Sleep
             </NavLink>
           </ul>
-          <div className="ml-auto flex items-center gap-4">
-            <div className="rounded-full border border-black p-4"></div>
-            <p>{user ? user : "Guest"}</p>
-          </div>
+          <Popover onOpenChange={handleOpen}>
+            <PopoverTrigger className="ml-auto">
+              <button className="relative flex cursor-pointer items-center gap-2">
+                <span className="absolute inset-0 -m-4 rounded-md hover:bg-gray-100/40"></span>
+                <div className="rounded-full border border-black p-4"></div>
+                <p>{user ? user : "Guest"}</p>
+                {isOpen ? <ChevronUp /> : <ChevronDown />}
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="w-32">
+              <form onSubmit={handleLogout}>
+                <button className="relative w-full cursor-pointer text-start">
+                  <span className="absolute inset-0 -m-3 rounded hover:bg-gray-100/40"></span>
+                  Logout
+                </button>
+              </form>
+            </PopoverContent>
+          </Popover>
         </nav>
       </header>
       <main className="mx-auto max-w-7xl p-4 pt-8">{children}</main>
