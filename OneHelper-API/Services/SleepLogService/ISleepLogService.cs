@@ -11,5 +11,6 @@ namespace OneHelper.Services.SleepLogService
         Task UpdateSleepLogAsync(int id, SleepRequest item);
         Task DeleteSleepLogAsync(int id);
         Task<IEnumerable<GroupedSleepResponsesDto>> GetSleepPeriod(int numberOfDays, int userId);
+        Task<SleepResponse?> GetActiveSleepLog(int userId);
     }
 }

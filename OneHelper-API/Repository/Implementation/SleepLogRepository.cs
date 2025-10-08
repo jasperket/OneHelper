@@ -21,6 +21,12 @@ namespace OneHelper.Repository.UserRepository
         }
 
         public async Task<IEnumerable<SleepLog>> GetAllUserSleepLogs(int userId) => await _dbSet.Where(i => i.UserId == userId).ToListAsync();
-       
+
+        public async Task<SleepLog?> GetActiveSleepLog(int userId)
+        {
+            var result = await _dbSet.Where(i => i.UserId == userId && i.EndTime == null).FirstOrDefaultAsync();
+            return result;
+        }
+
     }
 }

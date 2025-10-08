@@ -38,7 +38,7 @@ public class SleepLogService : ISleepLogService
     public async Task UpdateSleepLogAsync(int id, SleepRequest item)
     {
         var entity = await _sleepLogRepository.GetByIdAsync(id);
-        if ( entity is null )
+        if (entity is null)
         {
             throw new Exception("User not found...");
         }
@@ -55,5 +55,10 @@ public class SleepLogService : ISleepLogService
     {
         var periodOfSleep = (await _sleepLogRepository.GetSleepPeriod(numberOfDays, userId)).AsEnumerable();
         return _mapper.Map<IEnumerable<GroupedSleepResponsesDto>>(periodOfSleep);
+    }
+
+    public async Task<SleepResponse?> GetActiveSleepLog(int userId)
+    {
+        return _mapper.Map<SleepResponse>(await _sleepLogRepository.GetActiveSleepLog(userId));
     }
 }

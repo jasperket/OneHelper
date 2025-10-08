@@ -14,8 +14,8 @@ namespace OneHelper.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class SleepLogController(ISleepLogService service, ILogger<SleepLogController> logger, 
-        IValidator<SleepRequest> validator) : ControllerBase 
+    public class SleepLogController(ISleepLogService service, ILogger<SleepLogController> logger,
+        IValidator<SleepRequest> validator) : ControllerBase
     {
         private readonly ISleepLogService _sleepService = service;
         private readonly ILogger<SleepLogController> _logger = logger;
@@ -30,7 +30,7 @@ namespace OneHelper.Controllers
                 var claimId = await Task.Run(() => User.FindFirstValue(ClaimTypes.NameIdentifier));
                 return Ok(await _sleepService.GetAllSleepLogAsync(Convert.ToInt32(claimId ?? throw new Exception("Claim Id not found"))));
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -44,7 +44,7 @@ namespace OneHelper.Controllers
             {
                 return Ok(await _sleepService.GetSleepLogByIdAsync(id));
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -99,6 +99,22 @@ namespace OneHelper.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }        
+        }
+
+        [Authorize]
+        [HttpGet("active")]
+        public async Task<IActionResult> GetActiveSleepLog()
+        {
+            try
+            {
+                var userId = await Task.Run(() => User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var sleepLog = await _sleepService.GetActiveSleepLog(Convert.ToInt32(userId));
+                return Ok(sleepLog);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

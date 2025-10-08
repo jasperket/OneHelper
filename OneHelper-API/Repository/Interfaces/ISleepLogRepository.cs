@@ -6,5 +6,6 @@ namespace OneHelper.Repository.Interfaces
     {
         Task<IEnumerable<IGrouping<DateTime, SleepLog>>> GetSleepPeriod(int numberOfDays, int userId);
         Task<IEnumerable<SleepLog>> GetAllUserSleepLogs(int userId);
+        Task<SleepLog?> GetActiveSleepLog(int userId);
     }
 }
