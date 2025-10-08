@@ -57,7 +57,7 @@ export default function UnAuthHeader({ children }: LayoutProps) {
       if (axios.isAxiosError(e)) {
         toast.error("Login Error", {
           description:
-            e.response?.data.message || "Invalid username or password",
+            e.response?.data.message || "An unexpected error occurred",
           position: "top-center",
         });
       } else {
