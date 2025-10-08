@@ -3,17 +3,35 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { NavLink } from "react-router";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Logout } from "@/services/authClient";
+import axios from "axios";
+import { toast } from "sonner";
 
 type LayoutProps = {
   children: ReactNode;
 };
 
 export default function AuthHeader({ children }: LayoutProps) {
-  const { user } = useAuth();
+  const { user, refreshAuth } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await Logout();
+      await refreshAuth();
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        toast.error("Logout Error", {
+          description: e.response?.data.message,
+        });
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    }
   };
   return (
     <>
@@ -84,10 +102,12 @@ export default function AuthHeader({ children }: LayoutProps) {
               </button>
             </PopoverTrigger>
             <PopoverContent className="w-32">
-              <button className="relative w-full cursor-pointer text-start">
-                <span className="absolute inset-0 -m-3 rounded hover:bg-gray-100/40"></span>
-                Logout
-              </button>
+              <form onSubmit={handleLogout}>
+                <button className="relative w-full cursor-pointer text-start">
+                  <span className="absolute inset-0 -m-3 rounded hover:bg-gray-100/40"></span>
+                  Logout
+                </button>
+              </form>
             </PopoverContent>
           </Popover>
         </nav>
