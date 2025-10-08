@@ -1,6 +1,8 @@
 import { useAuth } from "@/hooks/useAuth";
-import type { ReactNode } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { useState, type ReactNode } from "react";
 import { NavLink } from "react-router";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 type LayoutProps = {
   children: ReactNode;
@@ -8,6 +10,11 @@ type LayoutProps = {
 
 export default function AuthHeader({ children }: LayoutProps) {
   const { user } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpen = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <>
       <header className="bg-gray-50 text-gray-700">
@@ -67,10 +74,22 @@ export default function AuthHeader({ children }: LayoutProps) {
               Sleep
             </NavLink>
           </ul>
-          <div className="ml-auto flex items-center gap-4">
-            <div className="rounded-full border border-black p-4"></div>
-            <p>{user ? user : "Guest"}</p>
-          </div>
+          <Popover onOpenChange={handleOpen}>
+            <PopoverTrigger className="ml-auto">
+              <button className="relative flex cursor-pointer items-center gap-2">
+                <span className="absolute inset-0 -m-4 rounded-md hover:bg-gray-100/40"></span>
+                <div className="rounded-full border border-black p-4"></div>
+                <p>{user ? user : "Guest"}</p>
+                {isOpen ? <ChevronUp /> : <ChevronDown />}
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="w-32">
+              <button className="relative w-full cursor-pointer text-start">
+                <span className="absolute inset-0 -m-3 rounded hover:bg-gray-100/40"></span>
+                Logout
+              </button>
+            </PopoverContent>
+          </Popover>
         </nav>
       </header>
       <main className="mx-auto max-w-7xl p-4 pt-8">{children}</main>
