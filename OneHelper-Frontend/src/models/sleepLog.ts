@@ -11,11 +11,6 @@ export interface SleepResponse {
   id: number;
 }
 
-export interface SleepAnalysisResponse {
-  sleepDebt: number;
-  status: string;
-}
-
 export const SleepThreshold = {
   GREEN: 0,
   YELLOW: 1,
@@ -31,4 +26,9 @@ export interface SleepAnalysisDto {
   sleepDebt: number;
   status: SleepThreshold;
   message?: string;
+}
+
+export interface SleepHoursResponse {
+  date: string;
+  hoursSlept: number;
 }
