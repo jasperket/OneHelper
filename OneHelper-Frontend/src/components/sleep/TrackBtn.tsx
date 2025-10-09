@@ -34,7 +34,7 @@ export default function TrackBtn() {
   const handleStop = async () => {
     if (!data) return;
     const payload: SleepRequest = {
-      startTime: new Date().toISOString(),
+      startTime: data.startTime,
       endTime: new Date().toISOString(),
     };
     await updateSleepLog(data?.id, payload);
@@ -42,6 +42,8 @@ export default function TrackBtn() {
 
   const invalidateActiveSleepLog = async () => {
     await queryClient.invalidateQueries({ queryKey: ["activeSleepLog"] });
+    await queryClient.invalidateQueries({ queryKey: ["sleepHours"] });
+    await queryClient.invalidateQueries({ queryKey: ["sleepAnalysis"] });
   };
 
   const startSleepLog = useMutation({
