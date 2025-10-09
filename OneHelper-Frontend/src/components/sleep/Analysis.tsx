@@ -46,7 +46,7 @@ export default function Analysis() {
       ) : isError ? (
         "No sleep logs"
       ) : (
-        `${Math.ceil(data?.sleepDebt)} minutes of sleep debt`
+        `${Math.ceil(data?.sleepDebt)} minutes of sleep debt this week`
       )}
     </h2>
   );
