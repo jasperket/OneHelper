@@ -1,4 +1,8 @@
-import type { SleepRequest, SleepResponse } from "@/models/sleepLog";
+import type {
+  SleepAnalysisDto,
+  SleepRequest,
+  SleepResponse,
+} from "@/models/sleepLog";
 import apiClient from "./apiClient";
 
 export const getSleepLogs = async (): Promise<SleepResponse[]> => {
@@ -34,5 +38,11 @@ export const getActiveSleepLog = async (): Promise<SleepResponse | null> => {
   const response = await apiClient.get<SleepResponse | null>(
     "/SleepLog/active",
   );
+  return response.data;
+};
+
+export const getSleepAnalysis = async (): Promise<SleepAnalysisDto> => {
+  const response = await apiClient.get<SleepAnalysisDto>("/SleepAnalysis");
+  console.log(response.data);
   return response.data;
 };

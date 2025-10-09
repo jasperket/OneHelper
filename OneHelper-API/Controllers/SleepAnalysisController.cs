@@ -23,11 +23,15 @@ namespace OneHelper.Controllers
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var result = await _sleepAnalysisService.AnalyzeSleep(Convert.ToInt32(userId));
-                return Ok(new {result});
+                return Ok(result);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, new { message = ex.Message });
             }
         }
     }
