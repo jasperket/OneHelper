@@ -66,4 +66,15 @@ public class ToDoService : IToDoService
         var entities = await _toDoRepository.GetUpcomingAsync(userId, normalizedStart, endDate);
         return _mapper.Map<IEnumerable<ToDoResponse>>(entities);
     }
+
+    public async Task<IEnumerable<ToDoWithScoresResponse>> GetSortedToDoAsync(int userId)
+    {
+        var todos = await _toDoRepository.GetSortedToDoAsync(userId, DateTime.Now);
+        return todos.OrderByDescending(i => (i.ComplexityScore * 0.4) + ((i.PriorityLevel / 3 * 10) * 0.6))
+            .Select(b => 
+             new ToDoWithScoresResponse(b.Id, b.Title, b.Description, b.ToDoType, b.ComplexityScore, b.StartTime, b.EndTime, b.PriorityLevel, b.IsCompleted,
+            (double)(b.ComplexityScore * 0.4) + ((b.PriorityLevel / 3 * 10) * 0.6)))
+            .ToList();
+
+    }
 }

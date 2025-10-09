@@ -1,6 +1,6 @@
 ﻿namespace OneHelper.Dto
 {
-    public record ValidatedToDoDto(string Title, string? Description, string ToDoType,
+    public record ValidatedToDoDto(string Title, string? Description, string ToDoType, int ComplexityScore,
         DateTime StartTime, DateTime EndTime,
         int PriorityLevel, bool IsCompleted)
     {

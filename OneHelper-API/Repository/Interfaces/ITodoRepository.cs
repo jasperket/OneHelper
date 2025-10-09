@@ -9,6 +9,7 @@ namespace OneHelper.Repository.Interfaces
     {
         Task<IEnumerable<ToDo>> GetUpcomingAsync(int userId, DateTime startDate, DateTime endDate);
         Task<IEnumerable<ToDo>> GetAllUserToDos(int userId);
+        Task<IEnumerable<ToDo>> GetSortedToDoAsync(int userId, DateTime? date);
 
     }
 }

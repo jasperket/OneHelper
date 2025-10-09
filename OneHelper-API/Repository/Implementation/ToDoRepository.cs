@@ -4,6 +4,7 @@ using OneHelper.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 
 namespace OneHelper.Repository.UserRepository
@@ -26,5 +27,15 @@ namespace OneHelper.Repository.UserRepository
         
         public async Task<IEnumerable<ToDo>> GetAllUserToDos(int userId) => await _dbSet.Where(i => i.UserId == userId).ToListAsync();
 
+        public async Task<IEnumerable<ToDo>> GetSortedToDoAsync(int userId, DateTime? date)
+        {
+            if (date is null)
+            {
+                date = DateTime.Now;
+            }
+            return await _dbSet
+                .Where(todo => todo.UserId == userId && todo.StartTime.Date == date.Value.Date)
+                .ToListAsync();
+        }
     }
 }

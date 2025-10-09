@@ -124,5 +124,19 @@ namespace OneHelper.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("GetSortedTodos")]
+        public async Task<IActionResult> GetSortedTodos()
+        {
+            try
+            {
+                var id = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new Exception("User is not found");
+                return Ok(await _toDoService.GetSortedToDoAsync(Convert.ToInt32(id)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message, ex.InnerException });
+            }
+        }
     }
 }

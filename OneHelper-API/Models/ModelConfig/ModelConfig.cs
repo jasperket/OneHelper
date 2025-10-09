@@ -16,6 +16,11 @@ namespace OneHelper.Models.ModelConfig
             builder.Property(x => x.EndTime).IsRequired();
             builder.Property(x => x.PriorityLevel).HasColumnType("tinyint").IsRequired();
             builder.HasOne(i => i.User).WithMany(i => i.Todos).HasForeignKey(i => i.UserId);
+            builder.Property(x => x.ComplexityScore).IsRequired();
+            builder.ToTable(tb =>
+            {
+                tb.HasCheckConstraint("CK_ToDo_ComplexityScore", "[ComplexityScore] >= 1 AND [ComplexityScore] <= 10");
+            });
         }
 
         public static void Configure(this EntityTypeBuilder<User> builder)

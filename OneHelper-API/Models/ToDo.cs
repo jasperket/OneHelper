@@ -9,6 +9,7 @@ namespace OneHelper.Models
         public string ToDoType { get; set; } = string.Empty;
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        public int ComplexityScore { get; set; }
         public int PriorityLevel { get; set; }
         public bool? IsCompleted { get; set; }
         public int UserId { get; set; }

@@ -17,5 +17,6 @@ namespace OneHelper.Services.ToDoService
         public Task UpdateToDoAsync(int id,ToDoRequest item);
         public Task DeleteToDoAsync(int id);
         public Task<IEnumerable<ToDoResponse>> GetUpcomingToDosAsync(int userId, DateTime? startDate = null);
+        Task<IEnumerable<ToDoWithScoresResponse>> GetSortedToDoAsync(int userId);
     }
 }
