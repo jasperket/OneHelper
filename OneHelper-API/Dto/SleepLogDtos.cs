@@ -7,4 +7,6 @@
     public sealed record SleepResponse(int Id,
         DateTime StartTime, DateTime? EndTime,
         string? Notes);
+    public sealed record SleepHoursDto(DateTime Date, double HoursSlept);
+
 }

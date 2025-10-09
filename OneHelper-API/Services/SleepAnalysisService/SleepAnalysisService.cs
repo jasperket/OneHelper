@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Diagnostics;
 using OneHelper.Dto;
 using OneHelper.Enums;
 using OneHelper.Models;
+using OneHelper.Repository.Interfaces;
 using OneHelper.Services.SleepLogService;
 using OneHelper.Static;
 
@@ -14,10 +15,13 @@ namespace OneHelper.Services.SleepAnalysisService
         private readonly ISleepLogService _sleepService;
         private readonly UserManager<User> _manager;
         private readonly int PERIOD_OF_SLEEP = 7;
-        public SleepAnalysisService(ISleepLogService service, UserManager<User> manager)
+
+        private readonly ISleepLogRepository _sleepLogRepository;
+        public SleepAnalysisService(ISleepLogService service, UserManager<User> manager, ISleepLogRepository sleepLogRepository)
         {
             _sleepService = service;
             _manager = manager;
+            _sleepLogRepository = sleepLogRepository;
         }
         public async Task<SleepAnalysisDto> AnalyzeSleep(int userId)
         {
@@ -72,5 +76,26 @@ namespace OneHelper.Services.SleepAnalysisService
             }
             return sleepGroupTotal.Sum();
         }
+
+        public async Task<IEnumerable<SleepHoursDto>> GetSleepHoursForPeriod(int numberOfDays, int userId)
+        {
+            var data = (await _sleepLogRepository.GetSleepHoursForPeriod(numberOfDays, userId)).ToList();
+
+            var endDate = DateTime.Today;
+            var startDate = endDate.AddDays(-numberOfDays + 1);
+
+            var fullRange = Enumerable.Range(0, numberOfDays)
+                                      .Select(offset => startDate.AddDays(offset))
+                                      .ToList();
+
+            var filled = fullRange.Select(date =>
+            {
+                var match = data.FirstOrDefault(d => d.Date.Date == date.Date);
+                return new SleepHoursDto(date, match?.HoursSlept ?? 0);
+            });
+
+            return filled;
+        }
+
     }
 }

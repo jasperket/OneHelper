@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OneHelper.Dto;
 using OneHelper.Services.SleepAnalysisService;
 using System.Security.Claims;
 
@@ -34,5 +35,14 @@ namespace OneHelper.Controllers
                 return StatusCode(500, new { message = ex.Message });
             }
         }
+
+        [HttpGet("sleep-hours")]
+        public async Task<ActionResult<IEnumerable<SleepHoursDto>>> GetSleepHours([FromQuery] int days = 7)
+        {
+            int userId = int.Parse(User.FindFirst("id")?.Value ?? "0");
+            var result = await _sleepAnalysisService.GetSleepHoursForPeriod(days, userId);
+            return Ok(result);
+        }
+
     }
 }
