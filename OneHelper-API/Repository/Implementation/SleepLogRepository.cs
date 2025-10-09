@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using OneHelper.Dto;
 using OneHelper.Models;
@@ -14,8 +15,13 @@ namespace OneHelper.Repository.UserRepository
 
         public async Task<IEnumerable<IGrouping<DateTime, SleepLog>>> GetSleepPeriod(int numberOfDays, int userId)
         {
-            var result = await _dbSet.Where(i => i.UserId == userId)
-                                .ToListAsync();
+            var startDate = DateTime.Today.AddDays(-numberOfDays);
+            var result = await _dbSet.Where(i => i.UserId == userId
+            && i.EndTime != null
+            && i.StartTime >= startDate
+            && i.StartTime <= DateTime.Today
+            ).ToListAsync();
+
             return result.GroupBy(i => i.StartTime.Date)
                         .OrderByDescending(i => i.Key)
                         .Take(numberOfDays);
@@ -43,7 +49,7 @@ namespace OneHelper.Repository.UserRepository
                 .GroupBy(i => i.StartTime.Date)
                 .Select(g => new SleepHoursDto(
                     g.Key,
-                    g.Sum(x => (x.EndTime!.Value - x.StartTime).TotalMinutes) / 60.0
+                    Math.Round(g.Sum(x => (x.EndTime!.Value - x.StartTime).TotalMinutes) / 60.0, 2)
                 ))
                 .OrderBy(x => x.Date); // chronological order
 
