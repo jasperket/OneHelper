@@ -43,6 +43,5 @@ export const getActiveSleepLog = async (): Promise<SleepResponse | null> => {
 
 export const getSleepAnalysis = async (): Promise<SleepAnalysisDto> => {
   const response = await apiClient.get<SleepAnalysisDto>("/SleepAnalysis");
-  console.log(response.data);
   return response.data;
 };
