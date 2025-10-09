@@ -82,7 +82,7 @@ namespace OneHelper.Services.SleepAnalysisService
             var data = (await _sleepLogRepository.GetSleepHoursForPeriod(numberOfDays, userId)).ToList();
 
             var endDate = DateTime.Today;
-            var startDate = endDate.AddDays(-numberOfDays + 1);
+            var startDate = endDate.AddDays(-numberOfDays);
 
             var fullRange = Enumerable.Range(0, numberOfDays)
                                       .Select(offset => startDate.AddDays(offset))
