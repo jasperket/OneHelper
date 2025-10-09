@@ -25,11 +25,16 @@ namespace OneHelper.Services.SleepAnalysisService
 
             Console.WriteLine($"Person age {userRecord.GetAge()}//{userRecord.FirstName}//{userRecord.LastName}");
             Console.WriteLine($"THIS IS A TEST {OneHelperStatic.SleepAgeGroup[OneHelperStatic.GetTitle(userRecord.GetAge())!]}");
-            var optimalSleepDuration = OneHelperStatic.SleepAgeGroup[OneHelperStatic.GetTitle(userRecord.GetAge()) 
+            var optimalSleepDuration = OneHelperStatic.SleepAgeGroup[OneHelperStatic.GetTitle(userRecord.GetAge())
                                         ?? throw new Exception("Title is invalid")];
             Console.WriteLine($"Optimal sleep duration {optimalSleepDuration}");
             var sleepRecord = await _sleepService.GetSleepPeriod(PERIOD_OF_SLEEP, userId);
             Console.Write($"Count {sleepRecord.Count()}  ");
+
+            if (sleepRecord == null || !sleepRecord.Any())
+            {
+                throw new InvalidOperationException("No sleep logs found.");
+            }
 
             // total sleep in minutes for a user
             var totalSleepInMinutes = GetTotalSleepMinutes(sleepRecord);
@@ -38,8 +43,8 @@ namespace OneHelper.Services.SleepAnalysisService
             // optimal sleep duration total minutes
             var optimalSleepInMinutes = optimalSleepDuration * 60 * sleepRecord.Count();
             Console.WriteLine($"Optimal sleep duration {optimalSleepDuration} / 60 * {sleepRecord.Count()}");
-            Console.WriteLine($"Optimal Sleep in minutes {optimalSleepInMinutes} - {totalSleepInMinutes} = {optimalSleepInMinutes-totalSleepInMinutes}");
-            var sleepResult = (double) optimalSleepInMinutes - totalSleepInMinutes; 
+            Console.WriteLine($"Optimal Sleep in minutes {optimalSleepInMinutes} - {totalSleepInMinutes} = {optimalSleepInMinutes - totalSleepInMinutes}");
+            var sleepResult = (double)optimalSleepInMinutes - totalSleepInMinutes;
             return new SleepAnalysisDto(sleepResult, sleepResult switch
             {
                 <= 60 => SleepThreshold.GREEN,
@@ -49,7 +54,7 @@ namespace OneHelper.Services.SleepAnalysisService
                 _ => throw new Exception("Sleep result is null, and cannot be processed")
             });
         }
-        
+
 
         private double GetTotalSleepMinutes(IEnumerable<GroupedSleepResponsesDto> sleepRecord)
         {
